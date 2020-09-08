@@ -4,8 +4,8 @@
 
 * [Slides](https://docs.google.com/presentation/d/1XjNaSRGnhfcnWKLIfF0E0zBOctxkxjTMoUN2Ogy3xy8/edit?usp=sharing)
 * Follow along demo
-  * [Dates practice]()
-  * [Mapping with PostGIS]()
+  * [Dates practice](#dates-follow-along)
+  * [Mapping with PostGIS](https://github.com/MUSA-509/week-2-digging-into-databases#mapping-follow-along)
 
 ### Outline
 
@@ -60,9 +60,8 @@
 1. Create a new map with the Station Status data
 2. Add it as a new Layer
   ![](images/add-new-layer.png)
-3. Add it as a new Layer __again__:
-  ![](images/add-new-layer.png)
-4. Choose one Layer and add this SQL to it, making sure to update your username/schema instead of mine:
+3. Add it as a new Layer __again__
+4. Choose one Layer and add this SQL to it, **making sure to update your username/schema instead of mine**:
   ```SQL
     SELECT
       the_geom,
@@ -73,7 +72,7 @@
       FROM andyepenn.indego_station_status
     ) as _w
   ```
-5. Choose another Layer and add this SQL to it, again making sure to change the username/schema for the table:
+5. Choose another Layer and add this SQL to it, **again making sure to change the username/schema for the table**:
   ```SQL
     SELECT
       the_geom,
@@ -84,7 +83,7 @@
       FROM andyepenn.indego_station_status
       ) as _w
   ```
-  A [convex hull](https://en.wikipedia.org/wiki/Convex_hull) is a bounding shape that minimally encompasses all the external points, kind of like a rubber band around your fingers.
+  A [convex hull](https://en.wikipedia.org/wiki/Convex_hull) is a bounding shape that minimally encompasses all the external points/lines/polygons, kind of like a rubber band around your fingers.
 
 6. Play around with the queries. You can add an `ORDER BY column` in the `ST_MakeLine` function. Try out `ST_MakeLine(the_geom ORDER BY id)`, `ST_MakeLine(the_geom ORDER BY addresszipcode)`, `ST_MakeLine(the_geom ORDER BY random())`. Something weird happens with the `random()` one. Can you spot it?
 
@@ -93,9 +92,9 @@
 
 ## Homework
 
-**Due by GitHub classroom on Sept 15**
+**Due by Sept 15, 11:59pm ET via GitHub classroom**
 
-
+[Homework 1](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/homework-1.md)
 
 ## Lab
 
