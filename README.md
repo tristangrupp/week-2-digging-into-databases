@@ -12,7 +12,7 @@
 * Housekeeping
   - Office Hours - [OHQ](https://ohq.io) and office hour times
   - Updates to Syllabus
-  - Homework via GitHub classroom
+  - Homework via GitHub classroom (check class Canvas page for link to assignment)
 * Introduction to databases
 * PostgreSQL
 * Review of SQL queries
@@ -35,10 +35,10 @@
    SELECT to_timestamp('April 1, 2020', 'Month DD, YYYY')
    ```
 2. Getting a timestamp type from a date and time
-   ```SQL
-   SELECT to_timestamp('2020/04/01 18:37:14',
-                       'YYYY/MM/DD HH24:MI:SS')
-   ```
+  ```SQL
+  SELECT to_timestamp('2020/04/01 18:37:14',
+                     'YYYY/MM/DD HH24:MI:SS')
+  ```
 3. Casting from a string:
   ```SQL
   SELECT '2020-09-08'::date
@@ -85,7 +85,7 @@
   ```
   A [convex hull](https://en.wikipedia.org/wiki/Convex_hull) is a bounding shape that minimally encompasses all the external points/lines/polygons, kind of like a rubber band around your fingers.
 
-6. Play around with the queries. You can add an `ORDER BY column` in the `ST_MakeLine` function. Try out `ST_MakeLine(the_geom ORDER BY id)`, `ST_MakeLine(the_geom ORDER BY addresszipcode)`, `ST_MakeLine(the_geom ORDER BY random())`. Something weird happens with the `random()` one. Can you spot it?
+6. Play around with the queries. You can add an `ORDER BY column` in the `ST_MakeLine` function. Try out `ST_MakeLine(the_geom ORDER BY id)`, `ST_MakeLine(the_geom ORDER BY addresszipcode)`, `ST_MakeLine(the_geom ORDER BY random())`. Yes, that's a weird spot for the `ORDER BY`. Also, something weird happens with the `random()` one. Can you spot it?
 
 7. Does changing the order of the query affect the Convex Hull?
 
@@ -94,7 +94,9 @@
 
 **Due by Sept 15, 11:59pm ET via GitHub classroom**
 
-[Homework 1](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/homework-1.md)
+Submit [Homework 1](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/homework-1.md) through GitHub classroom. Check our class Canvas page announcements for the signup link.
+
+Note: You need a GitHub account to complete the assignment. If you are unfamiliar with it, please
 
 ## Lab
 
@@ -102,4 +104,4 @@
 
 ## Resources
 
-* PostGIS documentation
+* [PostGIS documentation](https://postgis.net/docs/manual-3.0/reference.html)
