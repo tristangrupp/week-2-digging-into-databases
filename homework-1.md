@@ -18,6 +18,7 @@ Load all three datasets into your CARTO account.
 
 ```SQL
 -- Enter your SQL query here
+SELECT * FROM test
 ```
 
 **Result:**
