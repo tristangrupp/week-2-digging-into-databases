@@ -96,7 +96,7 @@
 
 Submit [Homework 1](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/homework-1.md) through GitHub classroom. Check our class Canvas page announcements for the signup link.
 
-Note: You need a GitHub account to complete the assignment. If you are unfamiliar with it, please
+Note: You need a GitHub account to complete the assignment. If you are unfamiliar with it, please ask Andy or Felix for assistance. Thursday's Lab will have a 10-15 minute portion on GitHub.
 
 ## Lab
 
