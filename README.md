@@ -100,8 +100,16 @@ Note: You need a GitHub account to complete the assignment. If you are unfamilia
 
 ## Lab
 
-* Posted soon
+* [Lab - PostGIS Basics](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/Lab.md)
 
 ## Resources
 
 * [PostGIS documentation](https://postgis.net/docs/manual-3.0/reference.html)
+
+
+## Recommended Software
+
+**Text Editors**
+
+* [VS Code](https://code.visualstudio.com/)
+* [Atom](https://atom.io/) -- my favorite
