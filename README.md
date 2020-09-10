@@ -1,5 +1,9 @@
 # Spatial Databases
 
+* [Lecture](#Lecture)
+* [Homework](#Homework)
+* [Lab](#Lab)
+
 ## Lecture
 
 * [Slides](https://docs.google.com/presentation/d/1XjNaSRGnhfcnWKLIfF0E0zBOctxkxjTMoUN2Ogy3xy8/edit?usp=sharing)
