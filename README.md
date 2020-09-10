@@ -36,7 +36,8 @@
 
 1. Date Parsing
   ```SQL
-   SELECT to_timestamp('April 1, 2020', 'Month DD, YYYY')
+   SELECT to_timestamp('April 1, 2020',
+                       'Month DD, YYYY')
    ```
 2. Getting a timestamp type from a date and time
   ```SQL
