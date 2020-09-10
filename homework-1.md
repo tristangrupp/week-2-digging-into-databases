@@ -17,10 +17,11 @@ Load all three datasets into your CARTO account.
 
 
 ```SQL
--- Enter your SQL query here
+SELECT count(*)
+FROM andyepenn.indego_trips_2019_q2
 ```
 
-**Result:**
+**Result:** 206354
 
 ## 2. What is the percent change in trips in Q2 2020 as compared to Q2 2019?
 
