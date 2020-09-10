@@ -39,7 +39,7 @@ About the dataset, notice the schema:
 Use the PostGIS function [`ST_Area`](https://postgis.net/docs/ST_Area.html). Since our geometries are in WGS84, we need to use `geography` type casting (`the_geom::geography`).
 
 ```SQL
-SELECT avg(ST_Area(the_geom::geography))
+SELECT avg(ST_Area(the_geom::geography)) as avg_area_sq_m
 FROM andyepenn.university_city_osm_buildings
 ```
 
@@ -52,7 +52,7 @@ Write a query to give:
 * count of buildings of this type
 
 ```SQL
-SELECT building_type, avg(ST_Area(the_geom::geography)), count(*) as building_count
+SELECT building_type, avg(ST_Area(the_geom::geography)) as avg_area_sq_m, count(*) as building_count
 FROM andyepenn.university_city_osm_buildings
 GROUP BY building_type
 ```
@@ -62,7 +62,7 @@ GROUP BY building_type
 Which building is largest?
 
 ```SQL
-SELECT building_type, name, ST_Area(the_geom::geography) as building_area
+SELECT building_type, name, ST_Area(the_geom::geography) as building_area_sq_m
 FROM andyepenn.university_city_osm_buildings
 ORDER BY ST_Area(the_geom::geography) DESC
 LIMIT 1
@@ -71,7 +71,7 @@ LIMIT 1
 Which building is smallest?
 
 ```SQL
-SELECT building_type, name, ST_Area(the_geom::geography) as building_area
+SELECT building_type, name, ST_Area(the_geom::geography) as building_area_sq_m
 FROM andyepenn.university_city_osm_buildings
 ORDER BY ST_Area(the_geom::geography) ASC
 LIMIT 1
@@ -79,7 +79,7 @@ LIMIT 1
 
 Smallest with a building name that is not null:
 ```SQL
-SELECT building_type, name, ST_Area(the_geom::geography) as building_area
+SELECT building_type, name, ST_Area(the_geom::geography) as building_area_sq_m
 FROM andyepenn.university_city_osm_buildings
 WHERE name is not null
 ORDER BY ST_Area(the_geom::geography) ASC
@@ -89,7 +89,7 @@ LIMIT 1
 ## What is the area (in square meters) of Meyerson Hall?
 
 ```SQL
-SELECT building_type, name, ST_Area(the_geom::geography) as building_area
+SELECT building_type, name, ST_Area(the_geom::geography) as building_area_sq_m
 FROM andyepenn.university_city_osm_buildings
 WHERE name = 'Meyerson Hall'
 ```
@@ -101,9 +101,17 @@ Using the [`ST_Distance`](https://postgis.net/docs/ST_Distance.html) function, f
 Hint: We can use `ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)` for the geometry to represent Meyerson Hall.
 
 ```SQL
-SELECT building_type, name, ST_Distance(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography) as building_distance
-FROM andyepenn.university_city_osm_buildings
-ORDER BY ST_Distance(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography) ASC
+SELECT
+    building_type,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as building_distance_m
+FROM
+    andyepenn.university_city_osm_buildings
+ORDER BY
+    ST_Distance(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography) ASC
 LIMIT 10
 ```
 
@@ -112,7 +120,13 @@ LIMIT 10
 PostGIS has a [distance operator (`<->`)](https://postgis.net/docs/geometry_distance_knn.html) that allows one to do distance ordering in an `ORDER BY`.
 
 ```SQL
-SELECT building_type, name, ST_Distance(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography) as building_distance
+SELECT
+    building_type,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as building_distance_m
 FROM andyepenn.university_city_osm_buildings
 ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
 LIMIT 10
@@ -123,7 +137,13 @@ LIMIT 10
 Use the [`ST_Intersects`](https://postgis.net/docs/ST_Intersects.html) function to exclude Meyerson Hall. We know that Meyerson Hall is at the point `ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)`. `ST_Intersects` returns true/false/null. To only included geometries that do not intersect, precede `ST_Intersects` with `NOT`.
 
 ```SQL
-SELECT building_type, name, ST_Distance(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography) as building_distance
+SELECT
+    building_type,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as building_distance
 FROM andyepenn.university_city_osm_buildings
 WHERE name != 'Meyerson Hall'
 ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
@@ -135,7 +155,17 @@ LIMIT 10
 Use the [`ST_ConvexHull`](https://postgis.net/docs/ST_ConvexHull.html) function to find the minimum convex shape that includes all of the buildings in University City. See step 5 in the [Mapping Follow Along](https://github.com/MUSA-509/week-2-digging-into-databases#mapping-follow-along) from this week's lecture.
 
 ```SQL
-SELECT ST_ConvexHull(ST_Collect(the_geom)) as the_geom, ST_Transform(ST_ConvexHull(ST_Collect(the_geom)), 3857) as the_geom_webmercator, 1 as cartodb_id
+SELECT
+    ST_ConvexHull(
+      ST_Collect(the_geom)
+    ) as the_geom,
+    ST_Transform(
+      ST_ConvexHull(
+        ST_Collect(the_geom)
+      ),
+      3857
+    ) as the_geom_webmercator,
+    1 as cartodb_id
 FROM andyepenn.university_city_osm_buildings
 ```
 
@@ -174,3 +204,4 @@ JOIN (
   ) as m
 ON m.building_type = b.building_type AND ST_Area(b.the_geom::geography) = m.maxarea
 ```
+**Note:** This is using a new keyword called "JOIN" that we will learn more about next week.
