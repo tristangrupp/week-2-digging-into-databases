@@ -9,7 +9,9 @@
 
 ## Dataset
 
-**Dataset:** OpenStreetMap Buildings for University City Neighborhood: [university_city_osm_buildings.geojson]()
+**Dataset:** OpenStreetMap Buildings for University City Neighborhood
+* [Preview data](https://github.com/MUSA-509/week-2-digging-into-databases/blob/master/data/university_city_osm_buildings.geojson)
+* Download link (copy and paste this into the Carto upload tool): `https://raw.githubusercontent.com/MUSA-509/week-2-digging-into-databases/master/data/university_city_osm_buildings.geojson`
 
 I fetched this data from GeoFabrik's wonderful OSM download service. I downloaded the [Pennsylvania](https://download.geofabrik.de/north-america/us/pennsylvania.html) file and filtered to only included building footprints that land in University City in Philadelphia.
 
