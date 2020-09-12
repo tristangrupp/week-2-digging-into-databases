@@ -145,7 +145,7 @@ SELECT
       ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
     ) as building_distance
 FROM andyepenn.university_city_osm_buildings
-WHERE name != 'Meyerson Hall'
+WHERE Not ST_Intersects(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326):: geography)
 ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
 LIMIT 10
 ```
