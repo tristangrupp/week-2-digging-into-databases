@@ -145,11 +145,14 @@ SELECT
       ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
     ) as building_distance
 FROM andyepenn.university_city_osm_buildings
-WHERE Not ST_Intersects(the_geom::geography, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326):: geography)
+WHERE name != 'Meyerson Hall'
 ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
 LIMIT 10
 ```
-
+Or use the following if we did't have a name attribute for Meyerson Hall and instead only had the geometry to uniquely define it.
+```SQL
+WHERE Not ST_Intersects(the_geom, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326))
+```
 ## Compute and Map the Convex Hull of all of the buildings
 
 Use the [`ST_ConvexHull`](https://postgis.net/docs/ST_ConvexHull.html) function to find the minimum convex shape that includes all of the buildings in University City. See step 5 in the [Mapping Follow Along](https://github.com/MUSA-509/week-2-digging-into-databases#mapping-follow-along) from this week's lecture.
