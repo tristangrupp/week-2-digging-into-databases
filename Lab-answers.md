@@ -151,7 +151,17 @@ LIMIT 10
 ```
 Or use the following if we did't have a name attribute for Meyerson Hall and instead only had the geometry to uniquely define it.
 ```SQL
+SELECT
+    building_type,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as building_distance
+FROM andyepenn.university_city_osm_buildings
 WHERE Not ST_Intersects(the_geom, ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326))
+ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+LIMIT 10
 ```
 ## Compute and Map the Convex Hull of all of the buildings
 
