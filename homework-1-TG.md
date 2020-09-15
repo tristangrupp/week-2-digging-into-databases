@@ -18,7 +18,7 @@ Load all three datasets into your CARTO account.
 
 ```SQL
 SELECT count(*)
-FROM andyepenn.indego_trips_2019_q2
+FROM tristangrupp.indego_trips_2019_q2
 ```
 
 **Result:** 206354
@@ -26,12 +26,14 @@ FROM andyepenn.indego_trips_2019_q2
 ## 2. What is the percent change in trips in Q2 2020 as compared to Q2 2019?
 
 Using only the table from Q2 2020 and the number calculated in the previous question, find the percent change of number of trips in Q2 2020 as compared to 2019. Remember you can do calculations in the select clause.
-
+ 
 ```SQL
--- Enter your SQL query here
+SELECT ((206354 - COUNT(*))/206354) as change
+FROM tristangrupp.indego_trips_2020_q2
 ```
 
 **Result:**
+For whatever reason I get a result of 0. This is how I would do it. Something is awry with the divide by 206354. 
 
 __Bonus: If you want to get fancier here, you can cast the result to a string and concatenate a `'%'` to the end. For example, `(10 + 3.2)::text || '%' AS perc_change`. This uses the type casting (number to string) and string concatenation operator (`||`, double pipes) that's essentially a `+` for strings.__
 
@@ -40,40 +42,52 @@ __Bonus: If you want to get fancier here, you can cast the result to a string an
 **Average duration of a trip for 2019.**
 
 ```SQL
--- Enter your SQL query here
+SELECT AVG(duration)
+FROM tristangrupp.indego_trips_2019_q2
 ```
 **Result:**
+23.67
 
 **Average duration of a trip for 2020.**
 
 ```SQL
--- Enter your SQL query here
+SELECT AVG(duration)
+FROM tristangrupp.indego_trips_2020_q2
 ```
 **Result:**
+39.23
 
 **What do you notice about the difference in trip lengths? Give a few explanations for why there could be a difference here.**
 
 **Answer:**
+The average trip length increased from 2019 to 2020.
+We do not have all the colder months for 2020. People are more likely to take longer treks on warm, summer days. When we get data from October to January, the 2020 average will likely decrease. As people get more used to using the service and bike lanes improve across Philly, people become more comfortable taking long trips. More stations may have been added as well in areas farther from Center City, where the first stations would likely have been set up first. The larger coverage of bike stations would increase the average trip length. Insert obligatory Covid-19 explanation here. 
 
 ## 4. What is the longest duration trip?
 
 ```SQL
--- Enter your SQL query here
-```
+SELECT MAX(plan_duration)
+FROM tristangrupp.indego_trips_2019_q2
 
+```
 **Result:**
+365 days
 
 **Why are there so many trips of this duration?**
 
 **Answer:**
+People purchase year-long Indego subscriptions. 
 
 ## 5. How many trips were shorter than 10 minutes?
 
 ```SQL
--- Enter your SQL query here
+SELECT COUNT(*)
+FROM tristangrupp.indego_trips_2019_q2
+WHERE duration < 10
 ```
 
 **Result:**
+74958
 
 ## 6. How many trips started on one day and ended in the next?
 
