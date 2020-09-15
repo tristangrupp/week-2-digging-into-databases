@@ -61,7 +61,7 @@ FROM tristangrupp.indego_trips_2020_q2
 
 **Answer:**
 The average trip length increased from 2019 to 2020.
-We do not have all the colder months for 2020. People are more likely to take longer treks on warm, summer days. When we get data from October to January, the 2020 average will likely decrease. As people get more used to using the service and bike lanes improve across Philly, people become more comfortable taking long trips. More stations may have been added as well in areas farther from Center City, where the first stations would likely have been set up first. The larger coverage of bike stations would increase the average trip length. Insert obligatory Covid-19 explanation here. 
+As people get more used to using the service and bike lanes improve across Philly, people become more comfortable taking long trips. More stations may have been added as well in areas farther from Center City, where the first stations would likely have been set up first. The larger coverage of bike stations would increase the average trip length. People are spending more time outdoors than last year because of Covid. Traveling to green spaces would be longer commutes than other, more nearby recreation that are closed.
 
 ## 4. What is the longest duration trip?
 
@@ -108,7 +108,8 @@ WHERE date_day2 > date_day
 ```
 
 **Result:**
-1692
+1692 for longer than 1 day trips
+1600 for next day, with different WHERE statement: WHERE (date_day2 - date_day) = 1
 
 
 ## 7. Give the five most popular stations between 7am and 10am.
@@ -119,20 +120,42 @@ Hint: Use the `EXTRACT` function to get the hour of the day from the timestamp.
 
 ```SQL
 -- Enter your SQL query here
+
+SELECT COUNT (*)
+  FROM
+(
+  	SELECT
+  	EXTRACT(HOUR from start_time) as date_hour,
+  	EXTRACT(HOUR from end_time) as date_hour2
+  FROM tristangrupp.indego_trips_2019_q2
+  ) as innertable
+WHERE date_hour BETWEEN 7 and 10
+GROUP BY start_station
+ORDER BY start_stationcount DSC
+LIMIT 5
 ```
 
 **Result:**
-
+I want to come back to this one. I am having trouble applying other things (where, group, order) to column aliases.
+When I used an inner table in the last question, it worked for the where clause. The additional group by to find stations isn't working. Things stop working after the WHERE clause above. My logic here is: get count of rides between 7-10am, find stations between 7-10 am, group by the start_station, order descending, limit to the 5 highest values. 
 
 ## 8. List all the passholder types and number of trips for each.
 
 In one query, give a list of all `passholder_type` options and the number of trips taken by `passholder_type`.
 
 ```SQL
--- Enter your SQL query here
+SELECT passholder_type, COUNT(passholder_type)
+FROM tristangrupp.indego_trips_2019_q2
+GROUP BY passholder_type
 ```
 
 **Result:**
+Day Pass - 34197
+Indego30 - 133344
+Indego365 - 37843
+IndegoFlex - 851
+NULL - 35
+Walk-up - 84
 
 ## 9. Using the station status dataset, find the distance in meters of all stations from Meyerson Hall.
 
