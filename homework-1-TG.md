@@ -96,15 +96,20 @@ Hint 1: date strings can be parsed using the text type to datetime type conversi
 Hint 2: Days of the month can be retrieved from a timestamp using the [EXTRACT](https://www.postgresql.org/docs/12/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT) function. See also some of the follow alongs from the Lecture in week 2.
 
 ```SQL
-THIS CODE ISNT WORKING!!!!!!!!!!!!!!!!!! at the WHERE condition
-SELECT
-  EXTRACT(DAY from start_time) as date_day,
-  EXTRACT(DAY from end_time) as date_day2
-FROM tristangrupp.indego_trips_2019_q2
-WHERE date_day2 <> date_day
+SELECT COUNT (*)
+  FROM
+(
+  	SELECT
+  	EXTRACT(DAY from start_time) as date_day,
+  	EXTRACT(DAY from end_time) as date_day2
+  FROM tristangrupp.indego_trips_2019_q2
+  ) as innertable
+WHERE date_day2 > date_day
 ```
 
 **Result:**
+1692
+
 
 ## 7. Give the five most popular stations between 7am and 10am.
 
