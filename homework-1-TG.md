@@ -150,17 +150,24 @@ GROUP BY passholder_type
 ```
 
 **Result:**
-Day Pass - 34197
-Indego30 - 133344
-Indego365 - 37843
-IndegoFlex - 851
-NULL - 35
-Walk-up - 84
+(Day Pass ... 34197)
+(Indego30 ... 133344)
+(Indego365 ... 37843)
+(IndegoFlex ... 851)
+(NULL ... 35)
+(Walk-up ... 84)
 
 ## 9. Using the station status dataset, find the distance in meters of all stations from Meyerson Hall.
 
 ```SQL
--- Enter your SQL query here
+SELECT
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as distance
+FROM tristangrupp.indego_station_status
+ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
 ```
 
 Don't worry about listing the full result, just give the query.
@@ -168,36 +175,79 @@ Don't worry about listing the full result, just give the query.
 ## 10. What is the average distance (in meters) of all stations from Meyerson Hall?
 
 ```SQL
--- Enter your SQL query here
+SELECT
+    AVG(
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+      )
+    ) as avgdistance
+FROM tristangrupp.indego_station_status
 ```
 
 **Result:**
+2844.78
 
 ## 11. How many stations are within 1km of Meyerson Hall?
 
 ```SQL
--- Enter your SQL query here
+SELECT COUNT (*)
+  FROM
+(
+SELECT
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as distance
+FROM tristangrupp.indego_station_status
+    ) as innertable
+WHERE distance < 1000
 ```
 
 **Result:**
+14
 
 ## 12. How many stations are within 2km of Meyerson Hall?
 
 ```SQL
--- Enter your SQL query here
+
+SELECT COUNT (*)
+  FROM
+(
+SELECT
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as distance
+FROM tristangrupp.indego_station_status
+    ) as innertable
+WHERE distance < 2000
 ```
 
 **Result:**
+44
 
 ## 13. Which station is furthest from Meyerson Hall?
 
 Write a query that returns only one line, and only gives the station id, station name, and distance from Meyerson Hall.
 
 ```SQL
--- Enter your SQL query here
+SELECT
+	id,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as distance
+FROM tristangrupp.indego_station_status
+ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography DESC
+LIMIT 1
 ```
 
 **Result:**
+ID: 3183 --- Name: 15th & Kitty Hawk --- Distance: 7049.17
 
 ## 14. Which station is closest to Meyerson Hall?
 
@@ -205,7 +255,17 @@ Write a query that returns only one line, and only gives the station id, station
 
 
 ```SQL
--- Enter your SQL query here
+SELECT
+	id,
+    name,
+    ST_Distance(
+      the_geom::geography,
+      ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography
+    ) as distance
+FROM tristangrupp.indego_station_status
+ORDER BY the_geom::geography <-> ST_SetSRID(ST_MakePoint(-75.19265679, 39.9522405), 4326)::geography ASC
+LIMIT 1
 ```
 
 **Result:**
+ID: 3208 --- Name: 34th & Spruce --- Distance: 201.73
